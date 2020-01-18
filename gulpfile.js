@@ -23,7 +23,7 @@ gulp.task("styles", () => {
         suffix: ".min",
       }),
     )
-    .pipe(gulp.dest("app/css"))
+    .pipe(gulp.dest("dest/css"))
     .pipe(
       browserSync.reload({
         stream: true,
@@ -41,7 +41,7 @@ gulp.task("styles-libs", () => {
         suffix: ".min",
       }),
     )
-    .pipe(gulp.dest("app/css"))
+    .pipe(gulp.dest("dest/css"))
     .pipe(
       browserSync.reload({
         stream: true,
@@ -59,7 +59,7 @@ gulp.task("scripts", () => {
         suffix: ".min",
       }),
     )
-    .pipe(gulp.dest("app/js"))
+    .pipe(gulp.dest("dest/js"))
     .pipe(
       browserSync.reload({
         stream: true,
@@ -77,7 +77,7 @@ gulp.task("scripts-libs", () => {
         suffix: ".min",
       }),
     )
-    .pipe(gulp.dest("app/js"))
+    .pipe(gulp.dest("dest/js"))
     .pipe(
       browserSync.reload({
         stream: true,
@@ -86,17 +86,24 @@ gulp.task("scripts-libs", () => {
 });
 
 gulp.task("html", () => {
-  return gulp.src("app/*.html").pipe(
-    browserSync.reload({
-      stream: true,
-    }),
-  );
+  return gulp
+    .src("app/*.html")
+    .pipe(gulp.dest("dest/"))
+    .pipe(
+      browserSync.reload({
+        stream: true,
+      }),
+    );
+});
+
+gulp.task("copy", () => {
+  return gulp.src(["app/fonts/*.eot", "app/fonts/*.ttf", "app/fonts/*.woff", "app/fonts/*.svg"]).pipe(gulp.dest("dest/fonts/"));
 });
 
 gulp.task("browser-sync", () => {
   browserSync.init({
     server: {
-      baseDir: "app/",
+      baseDir: "dest/",
     },
   });
 });
@@ -107,6 +114,7 @@ gulp.task("watch", () => {
   gulp.watch("app/less/libs/*.css", gulp.parallel("styles-libs"));
   gulp.watch("app/js/src/*.js", gulp.parallel("scripts"));
   gulp.watch("app/js/libs/*.js", gulp.parallel("scripts-libs"));
+  gulp.watch("app/fonts/**", gulp.parallel("copy"));
 });
 
-gulp.task("default", gulp.parallel("styles", "styles-libs", "scripts", "scripts-libs", "browser-sync", "watch"));
+gulp.task("default", gulp.parallel("html", "styles", "styles-libs", "scripts", "scripts-libs", "copy", "browser-sync", "watch"));
