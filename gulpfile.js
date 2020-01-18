@@ -3,15 +3,15 @@ const rename = require("gulp-rename");
 const less = require("gulp-less");
 const autoprefixer = require("gulp-autoprefixer");
 const cleanCSS = require("gulp-clean-css");
-const concatCSS = require("gulp-concat-css");
 const browserSync = require("browser-sync");
 const uglify = require("gulp-uglify");
 const concat = require("gulp-concat");
 
 gulp.task("styles", () => {
   return gulp
-    .src("app/less/*.less")
+    .src("src/less/*.less")
     .pipe(less())
+    .pipe(concat("style.css"))
     .pipe(
       autoprefixer({
         overrideBrowserslist: ["last 8 version"],
@@ -23,7 +23,7 @@ gulp.task("styles", () => {
         suffix: ".min",
       }),
     )
-    .pipe(gulp.dest("dest/css"))
+    .pipe(gulp.dest("src/css"))
     .pipe(
       browserSync.reload({
         stream: true,
@@ -33,15 +33,15 @@ gulp.task("styles", () => {
 
 gulp.task("styles-libs", () => {
   return gulp
-    .src("app/less/libs/*.css")
+    .src("src/less/libs/*.css")
     .pipe(cleanCSS({ compatibility: "ie8" }))
-    .pipe(concatCSS("libs.css"))
+    .pipe(concat("libs.css"))
     .pipe(
       rename({
         suffix: ".min",
       }),
     )
-    .pipe(gulp.dest("dest/css"))
+    .pipe(gulp.dest("src/css"))
     .pipe(
       browserSync.reload({
         stream: true,
@@ -51,7 +51,7 @@ gulp.task("styles-libs", () => {
 
 gulp.task("scripts", () => {
   return gulp
-    .src("app/js/src/*.js")
+    .src("src/js/src/*.js")
     .pipe(concat("main.js"))
     .pipe(uglify())
     .pipe(
@@ -59,7 +59,7 @@ gulp.task("scripts", () => {
         suffix: ".min",
       }),
     )
-    .pipe(gulp.dest("dest/js"))
+    .pipe(gulp.dest("src/js"))
     .pipe(
       browserSync.reload({
         stream: true,
@@ -69,7 +69,7 @@ gulp.task("scripts", () => {
 
 gulp.task("scripts-libs", () => {
   return gulp
-    .src(["app/js/libs/jquery-3.4.1.min.js", "app/js/libs/bootstrap.bundle.min.js"])
+    .src(["src/js/libs/jquery-3.4.1.min.js", "src/js/libs/bootstrap.bundle.min.js"])
     .pipe(concat("libs.js"))
     .pipe(uglify())
     .pipe(
@@ -77,7 +77,7 @@ gulp.task("scripts-libs", () => {
         suffix: ".min",
       }),
     )
-    .pipe(gulp.dest("dest/js"))
+    .pipe(gulp.dest("src/js"))
     .pipe(
       browserSync.reload({
         stream: true,
@@ -87,8 +87,8 @@ gulp.task("scripts-libs", () => {
 
 gulp.task("html", () => {
   return gulp
-    .src("app/*.html")
-    .pipe(gulp.dest("dest/"))
+    .src("src/*.html")
+    .pipe(gulp.dest("src/"))
     .pipe(
       browserSync.reload({
         stream: true,
@@ -96,25 +96,28 @@ gulp.task("html", () => {
     );
 });
 
-gulp.task("copy", () => {
-  return gulp.src(["app/fonts/*.eot", "app/fonts/*.ttf", "app/fonts/*.woff", "app/fonts/*.svg"]).pipe(gulp.dest("dest/fonts/"));
-});
-
 gulp.task("browser-sync", () => {
   browserSync.init({
     server: {
-      baseDir: "dest/",
+      baseDir: "src/",
     },
   });
 });
 
 gulp.task("watch", () => {
-  gulp.watch("app/*.html", gulp.parallel("html"));
-  gulp.watch("app/less/*.less", gulp.parallel("styles"));
-  gulp.watch("app/less/libs/*.css", gulp.parallel("styles-libs"));
-  gulp.watch("app/js/src/*.js", gulp.parallel("scripts"));
-  gulp.watch("app/js/libs/*.js", gulp.parallel("scripts-libs"));
-  gulp.watch("app/fonts/**", gulp.parallel("copy"));
+  gulp.watch("src/*.html", gulp.parallel("html"));
+  gulp.watch("src/less/*.less", gulp.parallel("styles"));
+  gulp.watch("src/less/libs/*.css", gulp.parallel("styles-libs"));
+  gulp.watch("src/js/src/*.js", gulp.parallel("scripts"));
+  gulp.watch("src/js/libs/*.js", gulp.parallel("scripts-libs"));
 });
 
-gulp.task("default", gulp.parallel("html", "styles", "styles-libs", "scripts", "scripts-libs", "copy", "browser-sync", "watch"));
+gulp.task("build", async () => {
+  gulp.src("src/*.html").pipe(gulp.dest("dest/"));
+  gulp.src("src/css/*.css").pipe(gulp.dest("dest/css/"));
+  gulp.src("src/js/*.js").pipe(gulp.dest("dest/js/"));
+  gulp.src("src/img/*.*").pipe(gulp.dest("dest/img/"));
+  gulp.src("src/fonts/*.*").pipe(gulp.dest("dest/fonts/"));
+});
+
+gulp.task("default", gulp.parallel("html", "styles", "styles-libs", "scripts", "scripts-libs", "browser-sync", "watch"));
