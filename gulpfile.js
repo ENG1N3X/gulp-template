@@ -6,6 +6,7 @@ const cleanCSS = require("gulp-clean-css");
 const browserSync = require("browser-sync");
 const uglify = require("gulp-uglify");
 const concat = require("gulp-concat");
+const pug = require("gulp-pug");
 
 gulp.task("styles", () => {
   return gulp
@@ -85,9 +86,14 @@ gulp.task("scripts-libs", () => {
     );
 });
 
-gulp.task("html", () => {
+gulp.task("pug", () => {
   return gulp
-    .src("src/*.html")
+    .src("src/pug/*.pug")
+    .pipe(
+      pug({
+        pretty: true,
+      }),
+    )
     .pipe(gulp.dest("src/"))
     .pipe(
       browserSync.reload({
@@ -105,7 +111,7 @@ gulp.task("browser-sync", () => {
 });
 
 gulp.task("watch", () => {
-  gulp.watch("src/*.html", gulp.parallel("html"));
+  gulp.watch("src/pug/*.pug", gulp.parallel("pug"));
   gulp.watch("src/less/*.less", gulp.parallel("styles"));
   gulp.watch("src/less/libs/*.css", gulp.parallel("styles-libs"));
   gulp.watch("src/js/src/*.js", gulp.parallel("scripts"));
@@ -120,4 +126,4 @@ gulp.task("build", async () => {
   gulp.src("src/fonts/*.*").pipe(gulp.dest("dest/fonts/"));
 });
 
-gulp.task("default", gulp.parallel("html", "styles", "styles-libs", "scripts", "scripts-libs", "browser-sync", "watch"));
+gulp.task("default", gulp.parallel("pug", "styles", "styles-libs", "scripts", "scripts-libs", "browser-sync", "watch"));
