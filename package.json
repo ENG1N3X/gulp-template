@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "rimraf dest && gulp build"
+    "build": "rimraf dest && gulp build",
+    "del": "rimraf dest"
   },
   "repository": {
     "type": "git",
