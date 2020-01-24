@@ -5,6 +5,7 @@ const autoprefixer = require("gulp-autoprefixer");
 const cleanCSS = require("gulp-clean-css");
 const browserSync = require("browser-sync");
 const uglify = require("gulp-uglify");
+const babel = require("gulp-babel");
 const concat = require("gulp-concat");
 const pug = require("gulp-pug");
 
@@ -53,6 +54,11 @@ gulp.task("styles-libs", () => {
 gulp.task("scripts", () => {
   return gulp
     .src("src/js/src/*.js")
+    .pipe(
+      babel({
+        presets: ["@babel/preset-env"],
+      }),
+    )
     .pipe(concat("main.js"))
     .pipe(uglify())
     .pipe(

@@ -1,1 +1,5 @@
-console.log("main.js");
+const testFunc = () => {
+  console.log("main.js");
+};
+
+testFunc();
