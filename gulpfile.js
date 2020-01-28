@@ -1,8 +1,7 @@
 const gulp = require("gulp");
 const rename = require("gulp-rename");
-const less = require("gulp-less");
+const sass = require("gulp-sass");
 const autoprefixer = require("gulp-autoprefixer");
-const cleanCSS = require("gulp-clean-css");
 const browserSync = require("browser-sync");
 const uglify = require("gulp-uglify");
 const babel = require("gulp-babel");
@@ -11,15 +10,14 @@ const pug = require("gulp-pug");
 
 gulp.task("styles", () => {
   return gulp
-    .src("src/less/*.less")
-    .pipe(less())
+    .src("src/sass/*.sass")
+    .pipe(sass({ outputStyle: "compressed" }))
     .pipe(concat("style.css"))
     .pipe(
       autoprefixer({
         overrideBrowserslist: ["last 8 version"],
       }),
     )
-    .pipe(cleanCSS({ compatibility: "ie8" }))
     .pipe(
       rename({
         suffix: ".min",
@@ -35,15 +33,14 @@ gulp.task("styles", () => {
 
 gulp.task("styles-libs", () => {
   return gulp
-    .src("src/less/libs/*.css")
-    .pipe(cleanCSS({ compatibility: "ie8" }))
+    .src("src/assets/css/libs/*.css")
     .pipe(concat("libs.css"))
     .pipe(
       rename({
         suffix: ".min",
       }),
     )
-    .pipe(gulp.dest("src/css"))
+    .pipe(gulp.dest("src/assets/css"))
     .pipe(
       browserSync.reload({
         stream: true,
@@ -76,7 +73,7 @@ gulp.task("scripts", () => {
 
 gulp.task("scripts-libs", () => {
   return gulp
-    .src(["src/js/libs/jquery-3.4.1.min.js", "src/js/libs/bootstrap.bundle.min.js"])
+    .src(["src/assets/js/libs/jquery-3.4.1.min.js", "src/assets/js/libs/bootstrap.bundle.min.js"])
     .pipe(concat("libs.js"))
     .pipe(uglify())
     .pipe(
@@ -84,7 +81,7 @@ gulp.task("scripts-libs", () => {
         suffix: ".min",
       }),
     )
-    .pipe(gulp.dest("src/js"))
+    .pipe(gulp.dest("src/assets/js"))
     .pipe(
       browserSync.reload({
         stream: true,
@@ -118,10 +115,10 @@ gulp.task("browser-sync", () => {
 
 gulp.task("watch", () => {
   gulp.watch("src/pug/*.pug", gulp.parallel("pug"));
-  gulp.watch("src/less/*.less", gulp.parallel("styles"));
-  gulp.watch("src/less/libs/*.css", gulp.parallel("styles-libs"));
+  gulp.watch("src/sass/*.sass", gulp.parallel("styles"));
+  gulp.watch("src/assets/css/libs/*.css", gulp.parallel("styles-libs"));
   gulp.watch("src/js/src/*.js", gulp.parallel("scripts"));
-  gulp.watch("src/js/libs/*.js", gulp.parallel("scripts-libs"));
+  gulp.watch("src/assets/js/libs/*.js", gulp.parallel("scripts-libs"));
 });
 
 gulp.task("build", async () => {
@@ -130,6 +127,8 @@ gulp.task("build", async () => {
   gulp.src("src/js/*.js").pipe(gulp.dest("dest/js/"));
   gulp.src("src/img/*.*").pipe(gulp.dest("dest/img/"));
   gulp.src("src/fonts/*.*").pipe(gulp.dest("dest/fonts/"));
+  gulp.src("src/assets/css/*.css").pipe(gulp.dest("dest/assets/css"));
+  gulp.src("src/assets/js/*.js").pipe(gulp.dest("dest/assets/js"));
 });
 
 gulp.task("default", gulp.parallel("pug", "styles", "styles-libs", "scripts", "scripts-libs", "browser-sync", "watch"));
