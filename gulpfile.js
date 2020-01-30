@@ -15,7 +15,7 @@ gulp.task("styles", () => {
     .pipe(concat("style.css"))
     .pipe(
       autoprefixer({
-        overrideBrowserslist: ["last 8 version"],
+        overrideBrowserslist: ["last 4 versions", "ie >= 9"],
       }),
     )
     .pipe(
@@ -114,8 +114,8 @@ gulp.task("browser-sync", () => {
 });
 
 gulp.task("watch", () => {
-  gulp.watch("src/pug/*.pug", gulp.parallel("pug"));
-  gulp.watch("src/sass/*.sass", gulp.parallel("styles"));
+  gulp.watch("src/pug/**/*.pug", gulp.parallel("pug"));
+  gulp.watch("src/sass/**/*.sass", gulp.parallel("styles"));
   gulp.watch("src/assets/css/libs/*.css", gulp.parallel("styles-libs"));
   gulp.watch("src/js/src/*.js", gulp.parallel("scripts"));
   gulp.watch("src/assets/js/libs/*.js", gulp.parallel("scripts-libs"));
