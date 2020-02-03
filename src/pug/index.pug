@@ -8,11 +8,10 @@ html(lang="ru")
         link(rel="stylesheet", href="css/style.min.css")
         title Gulp-template
     body
-        header.header
-            .container
-                .row
-                    .col-12
-                        h1.title Hello World!!!
+        
+        include includes/header.pug
+        include includes/content.pug
+        include includes/footer.pug
         
         script(src="assets/js/libs.min.js")
         script(src="js/main.min.js")
