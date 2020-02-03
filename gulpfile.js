@@ -33,14 +33,14 @@ gulp.task("styles", () => {
 
 gulp.task("styles-libs", () => {
   return gulp
-    .src("src/assets/css/libs/*.css")
+    .src("src/assets/libs/css/libs/*.css")
     .pipe(concat("libs.css"))
     .pipe(
       rename({
         suffix: ".min",
       }),
     )
-    .pipe(gulp.dest("src/assets/css"))
+    .pipe(gulp.dest("src/assets/libs/css"))
     .pipe(
       browserSync.reload({
         stream: true,
@@ -73,7 +73,7 @@ gulp.task("scripts", () => {
 
 gulp.task("scripts-libs", () => {
   return gulp
-    .src(["src/assets/js/libs/jquery-3.4.1.min.js", "src/assets/js/libs/bootstrap.bundle.min.js"])
+    .src(["src/assets/libs/js/libs/jquery-3.4.1.min.js", "src/assets/libs/js/libs/bootstrap.bundle.min.js"])
     .pipe(concat("libs.js"))
     .pipe(uglify())
     .pipe(
@@ -81,7 +81,7 @@ gulp.task("scripts-libs", () => {
         suffix: ".min",
       }),
     )
-    .pipe(gulp.dest("src/assets/js"))
+    .pipe(gulp.dest("src/assets/libs/js"))
     .pipe(
       browserSync.reload({
         stream: true,
@@ -116,19 +116,19 @@ gulp.task("browser-sync", () => {
 gulp.task("watch", () => {
   gulp.watch("src/pug/**/*.pug", gulp.parallel("pug"));
   gulp.watch("src/sass/**/*.sass", gulp.parallel("styles"));
-  gulp.watch("src/assets/css/libs/*.css", gulp.parallel("styles-libs"));
+  gulp.watch("src/assets/libs/css/libs/*.css", gulp.parallel("styles-libs"));
   gulp.watch("src/js/src/*.js", gulp.parallel("scripts"));
-  gulp.watch("src/assets/js/libs/*.js", gulp.parallel("scripts-libs"));
+  gulp.watch("src/assets/libs/js/libs/*.js", gulp.parallel("scripts-libs"));
 });
 
 gulp.task("build", async () => {
   gulp.src("src/*.html").pipe(gulp.dest("dest/"));
   gulp.src("src/css/*.css").pipe(gulp.dest("dest/css/"));
   gulp.src("src/js/*.js").pipe(gulp.dest("dest/js/"));
-  gulp.src("src/img/*.*").pipe(gulp.dest("dest/img/"));
-  gulp.src("src/fonts/*.*").pipe(gulp.dest("dest/fonts/"));
-  gulp.src("src/assets/css/*.css").pipe(gulp.dest("dest/assets/css"));
-  gulp.src("src/assets/js/*.js").pipe(gulp.dest("dest/assets/js"));
+  gulp.src("src/assets/img/*.*").pipe(gulp.dest("dest/assets/img/"));
+  gulp.src("src/assets/fonts/*.*").pipe(gulp.dest("dest/assets/fonts/"));
+  gulp.src("src/assets/libs/css/*.css").pipe(gulp.dest("dest/assets/libs/css"));
+  gulp.src("src/assets/libs/js/*.js").pipe(gulp.dest("dest/assets/libs/js"));
 });
 
 gulp.task("default", gulp.parallel("pug", "styles", "styles-libs", "scripts", "scripts-libs", "browser-sync", "watch"));
