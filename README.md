@@ -58,7 +58,7 @@ $ npm run node
 │   │   ├─ libs
 │   │   │   ├── css
 │   │   │   │   ├── libs            # css libs (Example: Bootstrap, owl2)
-│   │   │   │   └── libs.min.css    # Minify css libs
+│   │   │   │   └── libs.min.css    # minify css libs
 │   │   │   └── js
 │   │   │       ├── libs            # js libs (Example: Bootstrap, owl2)
 │   │   │       └── libs.min.js     # minify js libs
