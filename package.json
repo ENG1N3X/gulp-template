@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "gulp",
     "build": "rimraf dest && gulp build",
     "del": "rimraf dest",
     "node": "rimraf node_modules"
