@@ -15,7 +15,7 @@ This assembly includes:
 
 * Fonts, images, settings to automatic pages compiler.
 
-## Installation
+### Installation
 
 Install dependencies:
 
@@ -47,7 +47,7 @@ For remove node_modules folder:
 $ npm run node
 ```
 
-## Structure
+### Structure
 
 ```bash
 .gulp-template
@@ -83,7 +83,7 @@ $ npm run node
 └── package.json                    # config json
 ```
 
-## Fonts installation
+### Fonts installation
 
 - Open 'src' -> 'assets' -> 'fonts'
 - Put fonts that you want in folder
@@ -91,6 +91,6 @@ $ npm run node
 - Open \_fonts.sass file in folder 'sass'
 - @font-face your fonts as in example with font 'Roboto'
 
-## Copyright
+### Copyright
 
-**@eng1n3x**
+[@eng1n3x](https://github.com/ENG1N3X)

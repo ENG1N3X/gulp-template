@@ -4,10 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "gulp",
+    "dev": "gulp",
     "build": "rimraf dest && gulp build",
-    "del": "rimraf dest",
-    "node": "rimraf node_modules"
+    "del": "rimraf build"
   },
   "repository": {
     "type": "git",
@@ -15,17 +14,18 @@
   },
   "keywords": [
     "gulp",
-    "frontend"
+    "frontend",
+    "template"
   ],
   "author": "eng1n3x",
   "license": "ISC",
   "devDependencies": {
-    "@babel/core": "^7.8.3",
-    "@babel/preset-env": "^7.8.3",
+    "@babel/core": "^7.11.1",
+    "@babel/preset-env": "^7.11.0",
     "browser-sync": "^2.26.7",
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^7.0.1",
-    "gulp-babel": "^8.0.0-beta.2",
+    "gulp-babel": "^8.0.0",
     "gulp-concat": "^2.6.1",
     "gulp-pug": "^4.0.1",
     "gulp-rename": "^2.0.0",

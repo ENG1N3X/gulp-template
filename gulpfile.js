@@ -10,9 +10,9 @@ const pug = require("gulp-pug");
 
 gulp.task("styles", () => {
   return gulp
-    .src("src/sass/*.sass")
+    .src("src/assets/sass/*.+(sass|scss|css)")
     .pipe(sass({ outputStyle: "compressed" }))
-    .pipe(concat("style.css"))
+    .pipe(concat("styles.css"))
     .pipe(
       autoprefixer({
         overrideBrowserslist: ["last 4 versions", "ie >= 9"],
@@ -23,7 +23,7 @@ gulp.task("styles", () => {
         suffix: ".min",
       }),
     )
-    .pipe(gulp.dest("src/css"))
+    .pipe(gulp.dest("src/assets/css"))
     .pipe(
       browserSync.reload({
         stream: true,
@@ -33,7 +33,7 @@ gulp.task("styles", () => {
 
 gulp.task("styles-libs", () => {
   return gulp
-    .src("src/assets/libs/css/libs/*.css")
+    .src("src/assets/libs/css/libs/**/*.css")
     .pipe(concat("libs.css"))
     .pipe(
       rename({
@@ -50,20 +50,20 @@ gulp.task("styles-libs", () => {
 
 gulp.task("scripts", () => {
   return gulp
-    .src("src/js/src/*.js")
+    .src("src/assets/js/main/**/*.js")
     .pipe(
       babel({
         presets: ["@babel/preset-env"],
       }),
     )
-    .pipe(concat("main.js"))
+    .pipe(concat("scripts.js"))
     .pipe(uglify())
     .pipe(
       rename({
         suffix: ".min",
       }),
     )
-    .pipe(gulp.dest("src/js"))
+    .pipe(gulp.dest("src/assets/js"))
     .pipe(
       browserSync.reload({
         stream: true,
@@ -110,25 +110,27 @@ gulp.task("browser-sync", () => {
     server: {
       baseDir: "src/",
     },
+    notify: false,
+    open: false,
   });
 });
 
 gulp.task("watch", () => {
   gulp.watch("src/pug/**/*.pug", gulp.parallel("pug"));
-  gulp.watch("src/sass/**/*.sass", gulp.parallel("styles"));
-  gulp.watch("src/assets/libs/css/libs/*.css", gulp.parallel("styles-libs"));
-  gulp.watch("src/js/src/*.js", gulp.parallel("scripts"));
-  gulp.watch("src/assets/libs/js/libs/*.js", gulp.parallel("scripts-libs"));
+  gulp.watch("src/assets/sass/**/*.sass", gulp.parallel("styles"));
+  gulp.watch("src/assets/libs/css/libs/**/*.css", gulp.parallel("styles-libs"));
+  gulp.watch("src/assets/js/main/**/*.js", gulp.parallel("scripts"));
+  gulp.watch("src/assets/libs/js/libs/**/*.js", gulp.parallel("scripts-libs"));
 });
 
-gulp.task("build", async () => {
-  gulp.src("src/*.html").pipe(gulp.dest("dest/"));
-  gulp.src("src/css/*.css").pipe(gulp.dest("dest/css/"));
-  gulp.src("src/js/*.js").pipe(gulp.dest("dest/js/"));
-  gulp.src("src/assets/img/*.*").pipe(gulp.dest("dest/assets/img/"));
-  gulp.src("src/assets/fonts/*.*").pipe(gulp.dest("dest/assets/fonts/"));
-  gulp.src("src/assets/libs/css/*.css").pipe(gulp.dest("dest/assets/libs/css"));
-  gulp.src("src/assets/libs/js/*.js").pipe(gulp.dest("dest/assets/libs/js"));
-});
+// gulp.task("build", async () => {
+//   gulp.src("src/*.html").pipe(gulp.dest("dest/"));
+//   gulp.src("src/css/*.css").pipe(gulp.dest("dest/css/"));
+//   gulp.src("src/js/*.js").pipe(gulp.dest("dest/js/"));
+//   gulp.src("src/assets/img/*.*").pipe(gulp.dest("dest/assets/img/"));
+//   gulp.src("src/assets/fonts/*.*").pipe(gulp.dest("dest/assets/fonts/"));
+//   gulp.src("src/assets/libs/css/*.css").pipe(gulp.dest("dest/assets/libs/css"));
+//   gulp.src("src/assets/libs/js/*.js").pipe(gulp.dest("dest/assets/libs/js"));
+// });
 
 gulp.task("default", gulp.parallel("pug", "styles", "styles-libs", "scripts", "scripts-libs", "browser-sync", "watch"));
