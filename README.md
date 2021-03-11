@@ -20,7 +20,7 @@ This assembly includes:
 Install dependencies:
 
 ```sh
-$ npm i
+$ npm install
 ```
 
 For development environment:
@@ -38,15 +38,8 @@ $ npm run build
 For remove production folder:
 
 ```sh
-$ npm run dest
+$ npm run clear
 ```
-
-For remove node_modules folder:
-
-```sh
-$ npm run node
-```
-
 ### Structure
 
 ```bash
@@ -54,7 +47,7 @@ $ npm run node
 ├── dest                            # production folder
 ├── src                             # dev folder
 │   │── assets
-│   │   ├─ fonts
+│   │   ├─ fonts                    # fonts
 │   │   ├─ libs
 │   │   │   ├── css
 │   │   │   │   ├── libs            # css libs (Example: Bootstrap, owl2)
@@ -62,21 +55,18 @@ $ npm run node
 │   │   │   └── js
 │   │   │       ├── libs            # js libs (Example: Bootstrap, owl2)
 │   │   │       └── libs.min.js     # minify js libs
-│   │   └──img
-│   ├── css
+│   │   └──img                      # images
+│   ├── css                         # production css
 │   ├── js
 │   │   ├── src                     # src folder for js files
-│   │   └── main.min.js             # concat minify js file
+│   │   └── scripts.min.js          # concat minify js file
 │   ├── pug
-│   │   ├── includes                # folder for blocks (Example header.pug, ..., footer.pug)
+│   │   ├── components              # folder for components (Example header.pug, ..., footer.pug)
 │   │   └── index.pug               # main pug file
 │   ├── sass
-│   │   ├── includes                # folder for blocks
-│   │   │   ├── blocks              # (Example header.sass, ..., footer.sass)
-│   │   │   └── static              # folder for repeating styles
-│   │   ├── _blocks.sass            # import blocks styles
+│   │   ├── components              # folder for blocks
+│   │   │   └── header.sass         # (Example header.sass, ..., footer.sass)
 │   │   ├── _fonts._sass            # import fonts
-│   │   ├── _static.sass            # import static styles
 │   │   └── style.sass              # main sass file
 │   └── index.html                  # concat .pug files
 ├── gulpfile.js                     # main config for gulp

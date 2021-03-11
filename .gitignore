@@ -1,2 +1,5 @@
 node_modules
 package-lock.json
+dest
+debug.log
+.DS_Store
